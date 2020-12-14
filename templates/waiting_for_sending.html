@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>待发货订单</title>
+</head>
+<body>
+<a href='{% url 'index' %}'>返回主页</a><br>
+{% if no_send %}
+    {% for i in no_send %}
+        <img src="{{ i.goods_picture.url }}" style="top: 20px; right: 10px;border: none;" width="100px" height="100px"><br>
+        商品名:<a href='{% url 'check_goods' i.goods.id %}'>{{ i.goods_title }}</a><br>
+        价格：{{ i.goods_price }}元<br>
+        数量:{{ i.total_count }} <br>
+        总金额:{{ i.total_price }}元<br>
+        <a href='{% url 'check_order' i.id %}'>订单详情</a>
+        <a href='{% url 'delete_order' i.id %}'>取消订单</a><br>
+        {% if not i.shop_action%}
+        该订单已被店家拒绝，您可以取消订单~
+        {% endif %}
+        <br><br><br>
+    {% endfor %}
+        <div class="pagination">
+    <span class="step-links">
+        {% if no_send.has_previous %}
+            <a href="?page={{ no_send.previous_page_number }}">上一页</a>
+        {% endif %}
+
+        <span class="current">
+            第{{ no_send.number }}页 共{{ no_send.paginator.num_pages }}页
+        </span>
+
+        {% if no_send.has_next %}
+            <a href="?page={{ no_send.next_page_number }}">下一页</a><br>
+        {% endif %}
+    </span>
+</div>
+{% else %}
+暂无此类订单~
+{% endif %}
+</body>
+</html>

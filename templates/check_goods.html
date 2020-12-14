@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>查看商品详情</title>
+</head>
+<body>
+{% if the_goods %}
+{% if user.is_shopkeeper %}
+    <a href='{% url 'manage_goods' %}'>返回</a><br><br>
+{% else %}
+    <a href='{% url 'index' %}'>返回</a><br><br>
+{% endif %}
+ <img src="{{ the_goods.picture.url }}" style="top: 20px; right: 10px;border: none;" width="100px" height="100px"><br>
+ <b>{{ the_goods.title }}</b><br>
+<b>{{ the_goods.price }}元</b><br>
+{% if not user.is_shopkeeper %}
+<form method="post">{% csrf_token %}
+{% if not flag %}
+    <input type="submit" value="加入购物车"><br>
+{% endif %}
+{% if message %}
+    {{ message }}
+{% endif %}
+</form>
+    {% if the_goods.is_selling %}
+        {% if the_goods.stock %}
+            <a href='{% url 'buying' the_goods.id %}'>立即购买</a><br>
+        {% else %}
+            库存不足~<br>
+        {% endif %}
+    {% endif %}
+    店铺:{% if  the_goods.the_shopkeeper.shop_name  %}
+    <a href='{% url 'check_shop' the_goods.the_shopkeeper.id %}'>{{ the_goods.the_shopkeeper.shop_name }}</a><br>
+    {% else %}
+    <a href='{% url 'check_shop' the_goods.the_shopkeeper.id %}'>{{ the_goods.the_shopkeeper.username }}</a><br>
+    {% endif %}
+{% endif %}
+<br>
+<a href='{% url 'goods_comment' the_goods.id %}'>----商品评价----</a><br>
+
+{% if the_goods.description %}
+    ----商品详情----<br>
+    {% autoescape off %}
+        {{ the_goods.description }}
+    {% endautoescape %}
+{% else %}
+暂无商品详情
+{% endif %}
+{% else %}
+你瞎输什么呢
+{% endif %}
+</body>
+</html>

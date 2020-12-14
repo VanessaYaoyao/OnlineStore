@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>商品类别</title>
+</head>
+<body>
+<a href='{% url 'index' %}'>返回</a><br><br>
+{% if the_category %}
+    {% for i in the_category %}
+        <img src="{{ i.picture.url }}" style="top: 20px; right: 10px;border: none;" width="100px" height="100px"><br>
+        <b>{{ i.title }}</b><br>
+        价格:{{ i.price }}元<br>
+        销量:{{ i.sales }}<br>
+        <a href='{% url 'check_goods' i.id %}'>查看详情</a><br>
+        <br><br>
+    {% endfor %}
+
+<div class="pagination">
+    <span class="step-links">
+        {% if the_category.has_previous %}
+            <a href="?page={{ the_category.previous_page_number }}">上一页</a>
+        {% endif %}
+
+        <span class="current">
+            第{{ the_category.number }}页 共{{ the_category.paginator.num_pages }}页
+        </span>
+
+        {% if the_category.has_next %}
+            <a href="?page={{ the_category.next_page_number }}">下一页</a><br>
+        {% endif %}
+    </span>
+</div>
+{% else %}
+暂无此类商品~
+{% endif %}
+</body>
+</html>

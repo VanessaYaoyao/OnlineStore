@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>登录</title>
+</head>
+<body>
+ <h1>欢迎来到登陆页面！</h1>
+ <form action="" method="post">
+ <a href='{% url 'index' %}'>回到主页</a>
+ <br>
+     {% csrf_token %}
+     用户名：{{ login_form.username }}<br>
+     密码：{{ login_form.password }}<br>
+     验证码：{{ login_form.verification }}
+     {{ error.verification }}
+    <br>
+    <button type="submit">提交</button>
+     {% if message %}
+     {{ message }}
+     {% endif %}
+     <br>
+ </form>
+ <script src="https://cdn.bootcss.com/jquery/1.12.3/jquery.min.js"></script>
+<script>
+        $('.captcha').click(function () {
+            $.getJSON('/captcha/refresh/',function (result) {
+                $('.captcha').attr('src',result['image_url']);
+                $('#id_captcha_0').val(result['key']);
+            });
+        });
+</script>
+</body>
+</html>
+

@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>店铺中心</title>
+</head>
+<body>
+ <a href='{% url 'index' %}'>返回</a>    <a href='{% url 'editing' %}'>编辑</a><br>
+<b>用户名：</b>{{ user.username }}<br>
+<b>邮箱：</b>{{ user.email }}<br>
+ {% if user.shop_name %}
+    <b>店铺名：</b>{{ user.shop_name }}<br>
+ {% else %}
+    <b>暂无店铺名</b><br>
+ {% endif %}
+
+ {% if user.avatar %}
+    <b>头像：</b><img src="{{ user.avatar.url }}" style="top: 20px; right: 10px;border-radius: 25px;border: none;" width="50px" height="50px">
+ {% else%}
+     <b>暂无头像</b>
+ {% endif %}
+</body>
+</html>

@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>我的订单</title>
+</head>
+<body>
+<a href='{% url 'index' %}'>返回主页</a><br>
+{% if not user.is_shopkeeper %}
+    <a href='{% url 'waiting_for_paying' %}'>待支付</a>
+    <a href='{% url 'waiting_for_sending' %}'>待发货</a>
+    <a href='{% url 'waiting_for_receiving' %}'>待收货</a>
+    <a href='{% url 'waiting_for_comment' %}'>待评价</a>
+    <a href='{% url 'done' %}'>已完成</a>
+{% else %}
+    <a href='{% url 'waiting_for_dispose' %}'>待处理</a>
+    <a href='{% url 'have_disposed' %}'>已处理</a><br>
+{% endif %}
+</body>
+</html>

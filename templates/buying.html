@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>购买商品</title>
+</head>
+<body>
+<form method="post">
+    {% csrf_token %}
+    商品价格：{{ goods.price }}元<br>
+    {% if not address %}
+    您尚未填写收货地址！
+      <a href='{% url 'add_address' %}'>编辑收货地址</a><br><br>
+    {% else %}
+        <p>
+            收件人：{{ address.recipient }} 手机号：{{ address.phone }}<br>
+    详细地址：{{ address.province }} {{ address.city }} {{ address.detail }}<br>
+        </p>
+    {% endif %}
+    商品数量：<input type="number" step="1" name="count" required><br>
+    <input type="submit" value="提交"><br>
+    {% if message %}
+    {{ message }}
+    {% endif %}
+</form>
+</body>
+</html>

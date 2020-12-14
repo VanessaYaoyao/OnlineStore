@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>商品评论</title>
+</head>
+<body>
+<a href='{% url 'index' %}'>返回主页</a><br><br>
+{% if comments %}
+    {% for i in comments %}
+
+        {% if i.content %}
+            <b>{{ i.content }}</b><br>
+            评论人：{{ i.commenter }}<br>
+            评论时间：{{ i.comment_time }}<br>
+
+            {% if username == i.commenter %}
+                <a href='{% url 'delete_comment' i.id%}'>删除评论</a><br>
+            {% endif %}
+
+        {% else %}
+        该评论已被删除~
+        {% endif %}
+
+        {% if i.reply %}
+            店主回复：{{ i.reply }}
+            {% if username == i.the_goods.the_shopkeeper.username %}
+                <a href='{% url 'delete_reply' i.id %}'>删除回复</a><br>
+            {% endif %}
+        {% else %}
+            {% if username == i.the_goods.the_shopkeeper.username %}
+                <a href='{% url 'reply' i.id %}'>回复</a><br>
+            {% endif %}
+        {% endif %}
+<br><br>
+    {% endfor %}
+            <div class="pagination">
+    <span class="step-links">
+        {% if comments.has_previous %}
+            <a href="?page={{ comments.previous_page_number }}">上一页</a>
+        {% endif %}
+
+        <span class="current">
+            第{{ comments.number }}页 共{{ comments.paginator.num_pages }}页
+        </span>
+
+        {% if comments.has_next %}
+            <a href="?page={{ comments.next_page_number }}">下一页</a><br>
+        {% endif %}
+    </span>
+</div>
+
+{% else %}
+暂无评论~
+{% endif %}
+</body>
+</html>

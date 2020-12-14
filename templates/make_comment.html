@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>评论商品</title>
+</head>
+<body>
+ <a href='{% url 'index' %}'>回到主页</a><br><br>
+<form method="post">
+    {% csrf_token %}
+    请在此输入评论：<br>
+    <textarea cols="20" rows="10" name="content"></textarea><br>
+    <input type="submit" value="提交">
+    {% if message %}
+    {{ message }}
+    {% endif %}
+</form>
+</body>
+</html>

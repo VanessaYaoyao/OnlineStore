@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>待支付订单</title>
+</head>
+<body>
+<a href='{% url 'index' %}'>返回主页</a><br>
+{% if no_pay %}
+    {% for i in no_pay %}
+        <img src="{{ i.goods_picture.url }}" style="top: 20px; right: 10px;border: none;" width="100px" height="100px"><br>
+        商品名：<a href='{% url 'check_goods' i.goods.id %}'>{{ i.goods_title }}</a><br>
+        价格：{{ i.goods_price }}元<br>
+        <a href='{% url 'create_order' i.id %}'>支付</a>
+        <a href='{% url 'delete_order' i.id %}'>取消订单</a><br>
+    {% endfor %}
+        <div class="pagination">
+    <span class="step-links">
+        {% if no_pay.has_previous %}
+            <a href="?page={{ no_pay.previous_page_number }}">上一页</a>
+        {% endif %}
+
+        <span class="current">
+            第{{ no_pay.number }}页 共{{ no_pay.paginator.num_pages }}页
+        </span>
+
+        {% if no_pay.has_next %}
+            <a href="?page={{ no_pay.next_page_number }}">下一页</a><br>
+        {% endif %}
+    </span>
+</div>
+{% else %}
+暂无此类订单~
+{% endif %}
+</body>
+</html>

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>已处理订单</title>
+</head>
+<body>
+<a href='{% url 'index' %}'>返回主页</a><br>
+{% if have_disposed %}
+    {% for i in have_disposed %}
+            <img src="{{ i.goods_picture.url }}" style="top: 20px; right: 10px;border: none;" width="100px" height="100px"><br>
+        商品名：<a href='{% url 'check_goods' i.goods.id %}'>{{ i.goods_title }}</a><br>
+        商品价格：{{ i.goods_price }}元<br>
+        商品数量：{{ i.total_count }}<br>
+        总金额：{{ i.total_price }}元<br>
+        操作：
+        {% if i.shop_action %}
+        通过并发货
+        {% else %}
+        拒绝
+        {% endif %}<br>
+        <a href='{% url 'check_order' i.id %}'>订单详情</a><br><br>
+    {% endfor %}
+            <div class="pagination">
+    <span class="step-links">
+        {% if have_disposed.has_previous %}
+            <a href="?page={{ have_disposed.previous_page_number }}">上一页</a>
+        {% endif %}
+
+        <span class="current">
+            第{{ have_disposed.number }}页 共{{ have_disposed.paginator.num_pages }}页
+        </span>
+
+        {% if have_disposed.has_next %}
+            <a href="?page={{ have_disposed.next_page_number }}">下一页</a><br>
+        {% endif %}
+    </span>
+</div>
+{% else %}
+暂无此类订单~
+{% endif %}
+</body>
+</html>

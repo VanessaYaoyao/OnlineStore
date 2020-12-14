@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>发布新商品</title>
+</head>
+<body>
+<form method="post"  action="" enctype='multipart/form-data'>
+    <a href='{% url 'manage_goods' %}'>返回</a><br>
+    {% csrf_token %}
+    {{ goods_form.media }}
+    {{ goods_form.as_p }}
+    <p>
+        商品价格：<input type="number" step="0.01" required name="price">
+    </p>
+    商品类别：
+    <select name="category">
+        <option value="0">百货</option>
+        <option value="1">女装</option>
+        <option value="2">男装</option>
+        <option value="3">母婴</option>
+        <option value="4">美妆</option>
+        <option value="5">食品</option>
+        <option value="6">鞋包</option>
+        <option value="7">家纺</option>
+        <option value="8">运动</option>
+        <option value="9">书籍</option>
+    </select><br>
+    <input type="submit" value="提交">
+</form>
+
+</body>
+
+
+</html>

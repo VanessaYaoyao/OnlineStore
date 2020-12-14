@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>管理商品</title>
+</head>
+<body>
+<a href='{% url 'index' %}'>返回</a>
+<a href='{% url 'add_goods' %}'>发布新商品</a><br><br>
+----商品列表----<br>
+{#{% if is_selling_goods %}#}
+{#    <h3>已上架商品：</h3>#}
+{#        {% for i in is_selling_goods %}#}
+{#            <img src="{{ i.picture.url }}" style="top: 20px; right: 10px;border: none;" width="100px" height="100px"><br>#}
+{#            {{ i.title }}<br>#}
+{#            价格:{{ i.price }}元<br>#}
+{#            库存:{{ i.stock }} 销量：{{ i.sales }}<br>#}
+{#            <a href='{% url 'check_goods' i.id %}'>查看详情</a>#}
+{#            <a href='{% url 'is_not_selling' i.id %}'>下架</a><br>#}
+{#            <a href='{% url 'edit_goods' i.id %}'>编辑</a>#}
+{#            <a href='{% url 'delete_goods' i.id %}'>删除</a>#}
+{#            <br><br>#}
+{#        {% endfor %}#}
+{#{% else %}#}
+{#<h3>暂无已上架商品</h3>#}
+{#{% endif %}#}
+{#{% if is_not_selling_goods %}#}
+{#    <h3>待上架商品：</h3>#}
+{#        {% for i in is_not_selling_goods %}#}
+{#            <img src="{{ i.picture.url }}" style="top: 20px; right: 10px;border: none;" width="100px" height="100px"><br>#}
+{#            <b>{{ i.title }}</b><br>#}
+{#            价格:{{ i.price }}元<br>#}
+{#            库存:{{ i.stock }} 销量：{{ i.sales }}<br>#}
+{#            <a href='{% url 'check_goods' i.id %}'>查看详情</a>#}
+{#            <a href='{% url 'is_selling' i.id %}'>上架</a><br>#}
+{#            <a href='{% url 'edit_goods' i.id %}'>编辑</a>#}
+{#            <a href='{% url 'delete_goods' i.id %}'>删除</a>#}
+{#            <br><br>#}
+{#        {% endfor %}#}
+{#{% else %}#}
+{#<h3>暂无待上架商品</h3>#}
+{#{% endif %}#}
+{% if all_goods %}
+    <h3>已上架商品：</h3>
+    {% for i in all_goods %}
+        {% if i.is_selling %}
+                    <img src="{{ i.picture.url }}" style="top: 20px; right: 10px;border: none;" width="100px" height="100px"><br>
+            <b>{{ i.title }}</b><br>
+            价格:{{ i.price }}元<br>
+            库存:{{ i.stock }} 销量：{{ i.sales }}<br>
+            <a href='{% url 'check_goods' i.id %}'>查看详情</a>
+            <a href='{% url 'is_not_selling' i.id %}'>下架</a><br>
+            <a href='{% url 'edit_goods' i.id %}'>编辑</a>
+{#            <a href='{% url 'delete_goods' i.id %}'>删除</a>#}
+            <br><br><br>
+        {% endif %}
+    {% endfor %}
+    <h3>待上架商品：</h3>
+    {% for i in all_goods %}
+        {% if not i.is_selling %}
+            <img src="{{ i.picture.url }}" style="top: 20px; right: 10px;border: none;" width="100px" height="100px"><br>
+            <b>{{ i.title }}</b><br>
+            价格:{{ i.price }}元<br>
+            库存:{{ i.stock }} 销量：{{ i.sales }}<br>
+            <a href='{% url 'check_goods' i.id %}'>查看详情</a>
+            <a href='{% url 'is_selling' i.id %}'>上架</a><br>
+            <a href='{% url 'edit_goods' i.id %}'>编辑</a>
+{#            <a href='{% url 'delete_goods' i.id %}'>删除</a>#}
+            <br><br><br>
+        {% endif %}
+    {% endfor %}
+
+    <div class="pagination">
+    <span class="step-links">
+        {% if all_goods.has_previous %}
+            <a href="?page={{ all_goods.previous_page_number }}">上一页</a>
+        {% endif %}
+
+        <span class="current">
+            第{{ all_goods.number }}页 共{{ all_goods.paginator.num_pages }}页
+        </span>
+
+        {% if all_goods.has_next %}
+            <a href="?page={{ all_goods.next_page_number }}">下一页</a><br>
+        {% endif %}
+    </span>
+</div>
+
+{% else %}
+暂无商品~
+{% endif %}
+
+</body>
+</html>

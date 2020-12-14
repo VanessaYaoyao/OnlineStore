@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>已完成订单</title>
+</head>
+<body>
+<a href='{% url 'index' %}'>返回主页</a><br>
+{% if done %}
+{% for i in done%}
+        <img src="{{ i.goods_picture.url }}" style="top: 20px; right: 10px;border: none;" width="100px" height="100px"><br>
+    商品名：<a href='{% url 'check_goods' i.goods.id %}'>{{ i.goods_title }}</a><br>
+    商品价格：{{ i.goods_price }}元<br>
+    商品数量：{{ i.total_count }}<br>
+    总金额：{{ i.total_price }}元<br>
+    <a href='{% url 'check_order' i.id %}'>订单详情</a><br><br>
+{% endfor %}
+        <div class="pagination">
+    <span class="step-links">
+        {% if done.has_previous %}
+            <a href="?page={{ done.previous_page_number }}">上一页</a>
+        {% endif %}
+
+        <span class="current">
+            第{{ done.number }}页 共{{ done.paginator.num_pages }}页
+        </span>
+
+        {% if done.has_next %}
+            <a href="?page={{ done.next_page_number }}">下一页</a><br>
+        {% endif %}
+    </span>
+</div>
+{% else %}
+暂无此类订单~
+{% endif %}
+</body>
+</html>

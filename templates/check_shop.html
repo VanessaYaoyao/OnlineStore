@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>查看商店</title>
+</head>
+<body>
+<a href='{% url 'index' %}'>返回主页</a><br>
+<p>--商品列表---</p>
+{% for i in all_goods %}
+    <img src="{{ i.picture.url }}" style="top: 20px; right: 10px;border: none;" width="100px" height="100px"><br>
+    <b>{{ i.title }}</b><br>
+    价格:{{ i.price }}元<br>
+    销量:{{ i.sales }}<br>
+    <a href='{% url 'check_goods' i.id %}'>查看详情</a><br><br>
+<div class="pagination">
+    <span class="step-links">
+        {% if all_goods.has_previous %}
+            <a href="?page={{ all_goods.previous_page_number }}">上一页</a>
+        {% endif %}
+
+        <span class="current">
+            第{{ all_goods.number }}页 共{{ all_goods.paginator.num_pages }}页
+        </span>
+
+        {% if all_goods.has_next %}
+            <a href="?page={{ all_goods.next_page_number }}">下一页</a><br>
+        {% endif %}
+    </span>
+</div>
+{% endfor%}
+</body>
+</html>

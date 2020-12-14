@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>修改商品信息</title>
+</head>
+<body>
+<form method="post" action="" enctype='multipart/form-data'>
+    <a href='{% url 'manage_goods' %}'>返回</a><br>
+    (提示：只填写您需要修改的选项即可)<br>
+    {% csrf_token %}
+    商品标题：<input type="text" name="title"><br>
+    商品价格：<input type="number" name="price" step="0.01"><br>
+    商品封面图：{{ picture_form.avatar }}<br>
+    {{ picture_errors.avatar }}
+    {{ description_form.media }}
+    {{ description_form.description }}<br>
+    {{ description_errors.description }}
+    商品库存：<input type="number" name="stock"><br>
+    <input type="submit" value="提交">
+    {% if message %}
+    {{ message }}
+    {% endif %}
+</form>
+</body>
+</html>

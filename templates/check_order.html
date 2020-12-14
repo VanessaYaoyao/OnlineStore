@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>查看订单</title>
+</head>
+<body>
+<a href='{% url 'my_order' %}'>返回</a><br>
+<p>
+    <img src="{{ order.goods_picture.url }}" style="top: 20px; right: 10px;border: none;" width="100px" height="100px"><br>
+    商品名：{{ order.goods_title }}<br>
+    商品价格：{{ order.goods_price }}元
+    <a href='{% url 'check_goods' order.goods.id %}'>商品详情</a><br>
+</p>
+<p>
+    收件人：{{ order.address.recipient }} 手机号：{{ order.address.phone }}<br>
+    详细地址：{{ order.address.province }} {{ order.address.city }} {{ order.address.detail }}
+</p>
+<p>
+    商品数量：{{ order.total_count }}<br>
+    总价：{{ order.total_price }}元
+</p>
+<p>
+    订单编号：{{ order.id }}<br>
+    订单生成时间：{{ order.creat_time }}
+</p>
+{% if order.order_status == 2 and order.shop_action%}
+    <form method="post">
+    {% csrf_token %}
+        {% if user.is_shopkeeper %}
+            <select name="action">
+                <option value="1">通过并发货</option>
+                <option value="2">拒绝</option>
+            </select>
+        <input type="submit" value="提交"><br>
+        {% endif %}
+    </form>
+{% endif %}
+
+{% if order.order_status == 3 %}
+    <form method="post">
+        {% csrf_token %}
+        {% if not user.is_shopkeeper %}
+            <input type="submit" value="确认收货">
+        {% endif %}
+    </form>
+{% endif %}
+{% if message %}
+{{ message }}
+{% endif %}
+</body>
+</html>

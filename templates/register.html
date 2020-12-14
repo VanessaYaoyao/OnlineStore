@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>注册</title>
+</head>
+<body>
+<h1>欢迎来到注册页面!</h1>
+<a href='{% url 'index' %}'>回到主页</a>
+<form method="post" action="" enctype='multipart/form-data'>
+ {% csrf_token %}
+请选择您的身份:<br>
+    买家<input type="radio" name="position" value="1">卖家<input type="radio" name="position" value="0"><br>
+    <label>用户名:</label>
+    <input name="username1">
+    <br>
+    <label>密码:</label>
+    <input name="password1" type="password">
+    <br>
+    <label>确认密码：</label>
+    <input name="password2" type="password">
+    <br>
+    邮箱：{{ register_form.email }}<br>
+    {{ error.email }}<br>
+    <label>验证码:</label>{{ register_form.verification }}<br>
+    {{ error.verification }}<br>
+    <input type="submit" value="提交">
+    <br>
+    <br>
+    {% if message %}
+    {{ message }}
+    {% endif %}
+</form>
+<script src="https://cdn.bootcss.com/jquery/1.12.3/jquery.min.js"></script>
+<script>
+        $('.captcha').click(function () {
+            $.getJSON('/captcha/refresh/',function (result) {
+                $('.captcha').attr('src',result['image_url']);
+                $('#id_captcha_0').val(result['key']);
+            });
+        });
+</script>
+</body>
+</html>
+

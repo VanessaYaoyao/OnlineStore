@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>搜索结果</title>
+</head>
+<body>
+<a href="{% url 'index' %}">回到主页</a><br><br>
+{% for i in search_goods %}
+  <div>
+    <img src="{{ i.picture.url }}" style="top: 20px; right: 10px;border: none;" width="100px" height="100px"><br>
+    <b>{{ i.title }}</b><br>
+    价格:{{ i.price }}元<br>
+    销量:{{ i.sales }}<br>
+    <a href='{% url 'check_goods' i.id %}'>查看详情</a><br>
+    <br><br>
+  </div>
+{% empty %}
+  <div class="no-post">
+    没有搜索到符合条件的商品
+  </div>
+{% endfor %}
+</body>
+</html>

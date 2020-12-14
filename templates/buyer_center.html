@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>个人中心</title>
+</head>
+<body>
+ <a href='{% url 'index' %}'>返回</a><br>
+<h5>用户名：</h5>{{ user.username }}<br>
+<h5>邮箱：</h5>{{ user.email }}<br>
+ {% if user.avatar %}
+    <h5>头像：</h5><img src="{{ user.avatar.url }}" style="top: 20px; right: 10px;border-radius: 25px;border: none;" width="50px" height="50px">
+     <form method="post" action="" enctype='multipart/form-data'>
+    {% csrf_token %}
+         {{ avatar_form.avatar }}<br>
+         {{ error.avatar }}
+    <input type="submit" value="修改头像">
+    </form>
+ {% else%}
+ <p>
+     <h5>暂无头像</h5>
+ </p>
+     <form method="post" action="" enctype='multipart/form-data'>
+    {% csrf_token %}
+         {{ avatar_form.avatar }}<br>
+         {{ error.avatar }}
+    <input type="submit" value="上传头像">
+    </form>
+ {% endif %}
+ {% if address %}
+     <h5>收货地址：</h5>
+    {% for i in address %}
+    收货人：{{ i.recipient }} 手机号：{{ i.phone }}<br>
+        地址：{{ i.province }} {{ i.city }} {{ i.detail }}<br>
+    {% endfor %}
+{% else %}
+    <h5>暂无收货地址</h5><br>
+{% endif %}
+  <a href='{% url 'add_address' %}'>编辑收货地址</a><br><br>
+ <a href='{% url 'change_password' %}'>修改密码</a><br>
+</form>
+</body>
+</html>

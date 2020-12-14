@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>新增地址</title>
+</head>
+<body>
+<form method="post">
+ <a href='{% url 'buyer_center' %}'>返回</a><br>
+{% csrf_token %}
+    收件人:<input type="text" name="recipient"><br>
+    手机号：<input type="number" name="phone"><br>
+    省份：<input type="text" name="province"><br>
+    城市：<input type="text" name="city"><br>
+    详细地址：<input type="text" name="detail"><br>
+    <input type="submit" value="提交">
+    {% if message %}
+    {{ message }}
+    {% endif %}
+</form>
+</body>
+</html>

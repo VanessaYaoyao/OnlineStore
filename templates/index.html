@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>主页</title>
+</head>
+<body>
+<h1>欢迎来到网上商城！</h1>
+</body>
+    {% if request.session.is_login %}
+        {% if user.avatar %}
+            <img src="{{ user.avatar.url }}" style="top: 20px; right: 10px;border-radius: 25px;border: none;" width="50px" height="50px">
+        {% endif %}
+        {% if not user.is_shopkeeper %}
+            <b>{{ user.username }}</b> <a href='{% url 'logout' %}'>注销</a><br>
+            <a href='{% url 'my_order' %}'>我的订单</a>
+            <a href='{% url 'shopping_car' %}'>购物车</a>
+            <a href='{% url 'buyer_center' %}'>个人中心</a>
+            <a href='{% url 'my_money' %}'>我的钱包</a><br>
+
+            <form method="get" action="{% url 'search' %}">
+              {% csrf_token %}
+              <input type="text" name='search'  placeholder="请在此输入商品" required>
+              <button type="submit">搜索</button>
+            </form>
+
+            --商品分类--<br>
+            <a href='{% url 'category' 0 %}'>百货</a><br>
+            <a href='{% url 'category' 1 %}'>女装</a><br>
+            <a href='{% url 'category' 2 %}'>男装</a><br>
+            <a href='{% url 'category' 3 %}'>母婴</a><br>
+            <a href='{% url 'category' 4 %}'>美妆</a><br>
+            <a href='{% url 'category' 5 %}'>食品</a><br>
+            <a href='{% url 'category' 6 %}'>鞋包</a><br>
+            <a href='{% url 'category' 7 %}'>家纺</a><br>
+            <a href='{% url 'category' 8 %}'>运动</a><br>
+            <a href='{% url 'category' 9 %}'>书籍</a><br>
+            <br>
+                    ----热销商品----<br>
+        {% for i in recommand %}
+            <br>
+            <img src="{{ i.picture.url }}" style="top: 20px; right: 10px;border: none;" width="100px" height="100px"><br>
+            <b>{{ i.title }}</b><br>
+            价格:{{ i.price }}元<br>
+            销量:{{ i.sales }}<br>
+            <a href='{% url 'check_goods' i.id %}'>查看详情</a><br>
+        {% endfor %}
+        <div class="pagination">
+            <span class="step-links">
+                {% if recommand.has_previous %}
+                    <a href="?page={{ recommand.previous_page_number }}">上一页</a>
+                {% endif %}
+
+                <span class="current">
+                    第{{ recommand.number }}页 共{{ recommand.paginator.num_pages }}页
+                </span>
+
+                {% if recommand.has_next %}
+                    <a href="?page={{ recommand.next_page_number }}">下一页</a><br>
+                {% endif %}
+            </span>
+        </div>
+
+        {% else %}
+            {% if user.shop_name %}
+                <b>{{ user.shop_name }} </b><a href='{% url 'logout' %}'>注销</a><br>
+            {% else %}<b>{{ user.username }} </b><a href='{% url 'logout' %}'>注销</a><br>
+            {% endif %}
+            <a href='{% url 'my_order' %}'>我的订单</a>
+            <a href='{% url 'manage_goods' %}'>管理商品</a>
+            <a href='{% url 'shop_center' %}'>店铺中心</a>
+            <a href='{% url 'my_money' %}'>我的钱包</a>
+        {% endif %}
+    {% else %}
+        <a href='{% url 'login' %}'>登录</a>
+        <a href='{% url 'register' %}'>注册</a>
+        <a href='{% url 'forget_password' %}'>忘记密码？</a>
+
+    {% endif %}
+
+
+</html>

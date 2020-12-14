@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>购物车</title>
+</head>
+<body>
+ <a href='{% url 'index' %}'>返回主页</a><br><br>
+{% if shopping_car_goods %}
+    {% for i in shopping_car_goods %}
+        <img src="{{ i.the_goods.picture.url }}" style="top: 20px; right: 10px;border: none;" width="100px" height="100px"><br>
+        {{ i.the_goods.title }}<br>
+        {{ i.the_goods.price }}元<br>
+        <a href='{% url 'check_goods' i.the_goods.id %}'>商品详情</a><br>
+        <a href='{% url 'delete_shopping_car' i.id %}'>删除</a>
+        {% if i.the_goods.stock and i.the_goods.is_selling %}
+        <a href='{% url 'buying' i.the_goods.id %}'>立即购买</a><br><br>
+        {% endif %}
+
+        {% if not i.the_goods.stock %}
+        库存不足~<br><br>
+        {% endif %}
+        {% if not i.the_goods.is_selling %}
+        该商品已下架~<br><br>
+        {% endif %}
+
+    {% endfor %}
+    <div class="pagination">
+    <span class="step-links">
+        {% if shopping_car_goods.has_previous %}
+            <a href="?page={{ shopping_car_goods.previous_page_number }}">上一页</a>
+        {% endif %}
+
+        <span class="current">
+            第{{ shopping_car_goods.number }}页 共{{ shopping_car_goods.paginator.num_pages }}页
+        </span>
+
+        {% if shopping_car_goods.has_next %}
+            <a href="?page={{ shopping_car_goods.next_page_number }}">下一页</a><br>
+        {% endif %}
+    </span>
+</div>
+{% else %}
+购物车内空空如也~
+{% endif %}
+</body>
+</html>

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>生成订单</title>
+</head>
+<body>
+<a href='{% url 'index' %}'>回到主页</a>
+<p>
+    <img src="{{ order.goods.picture.url }}" style="top: 20px; right: 10px;border: none;" width="100px" height="100px"><br>
+    商品名：{{ order.goods.title }}<br>
+    商品价格：{{ order.goods.price }}元
+</p>
+<p>
+    收件人：{{ order.address.recipient }} 手机号：{{ order.address.phone }}<br>
+    详细地址：{{ order.address.province }} {{ order.address.city }} {{ order.address.detail }}
+</p>
+<p>
+    商品数量：{{ order.total_count }}<br>
+    <b>总价：{{ order.total_price }}元</b>
+</p>
+<p>
+    订单编号：{{ order.id }}<br>
+    订单生成时间：{{ order.creat_time }}
+</p>
+<form method="post">
+    {% csrf_token %}
+{% if order.order_status == 1 %}
+    <input type="submit" value="确认订单并支付"><br>
+{% endif %}
+    {% if message %}
+    {{ message }}
+    {% endif %}
+{% if order.order_status == 2 %}
+<a href='{% url 'my_order' %}'>查看我的订单</a><br>
+{% endif %}
+</form>
+</body>
+</html>

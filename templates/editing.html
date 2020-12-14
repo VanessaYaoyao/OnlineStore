@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>编辑店铺信息</title>
+</head>
+<body>
+<a href='{% url 'shop_center' %}'>返回</a>  <a href='{% url 'change_password' %}'>修改密码</a><br>
+     <form method="post" action="" enctype='multipart/form-data'>
+    {% csrf_token %}
+         <b>店铺名：</b><input type="text" name="shop_name" value="{{ user.shop_name }}"><br>
+    <b>头像：</b><input type="file" name="avatar"><br>
+         {{ error.avatar }}
+    <input type="submit" value="提交">
+    </form>
+{% if message %}
+{{ message }}
+{% endif %}
+</body>
+</html>
